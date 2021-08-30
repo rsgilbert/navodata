@@ -14,7 +14,8 @@ const prepare = (baseUrl, companyName) => {
         // filter is an object with properties: property, and one of these: endswith, startswith, equals, contains
         filter, 
         orderby,
-        select
+        select,
+        disableJson
     }) {
         let url = new URL(`${companyBaseUrl.href}`)
         testField('serviceName', serviceName)
@@ -107,8 +108,12 @@ const prepare = (baseUrl, companyName) => {
             }
         }
 
-
-
+        // json support
+        // if you donot want to use json, and the web service eg for old NAV versions like NAV 2015
+        // supports or defaults to xml, set property -> disableJson: true
+        if(!disableJson) {
+            addParam(url, '$format', 'json')
+        }
         return url.href
     }
 }

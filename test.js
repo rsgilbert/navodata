@@ -14,7 +14,7 @@ describe('prepare', () => {
             const url = query({
                 serviceName
             })
-            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList"
+            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24format=json"
             expect(url).toBe(expectedUrl)
         })
 
@@ -26,7 +26,7 @@ describe('prepare', () => {
                     serviceName,
                     id
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList(36)"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList(36)?%24format=json"
                 expect(url).toBe(expectedUrl)
             })
 
@@ -36,7 +36,7 @@ describe('prepare', () => {
                     serviceName,
                     id
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList('A002')"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList('A002')?%24format=json"
                 expect(url).toBe(expectedUrl)
             })
         })
@@ -46,7 +46,7 @@ describe('prepare', () => {
                 serviceName,
                 top: 3
             })
-            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24top=3"
+            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24top=3&%24format=json"
             expect(url).toBe(expectedUrl)
         })
 
@@ -55,7 +55,7 @@ describe('prepare', () => {
                 serviceName,
                 skip: 2
             })
-            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24skip=2"
+            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24skip=2&%24format=json"
             expect(url).toBe(expectedUrl)
         })
 
@@ -67,7 +67,7 @@ describe('prepare', () => {
                         property: 'Project'
                     }
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24orderby=Project"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24orderby=Project&%24format=json"
                 expect(url).toBe(expectedUrl)
             })
             it('orderby descending', () => {
@@ -78,7 +78,7 @@ describe('prepare', () => {
                         isDescending: true
                     }
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24orderby=Project+desc"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24orderby=Project+desc&%24format=json"
                 expect(url).toBe(expectedUrl)
             })
         })
@@ -88,7 +88,7 @@ describe('prepare', () => {
                 serviceName,
                 count: true
             })
-            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24count=true"
+            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24count=true&%24format=json"
             expect(url).toBe(expectedUrl)
         })
 
@@ -97,7 +97,7 @@ describe('prepare', () => {
                 serviceName,
                 select: [ 'Donor', 'Description', 'LineNo' ]
             })
-            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24select=Donor%2CDescription%2CLineNo"
+            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24select=Donor%2CDescription%2CLineNo&%24format=json"
             expect(url).toBe(expectedUrl) 
         })
 
@@ -110,7 +110,7 @@ describe('prepare', () => {
                         contains: 'deago'
                     }
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=contains%28Donor%2C%27deago%27%29"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=contains%28Donor%2C%27deago%27%29&%24format=json"
                 expect(url).toBe(expectedUrl) 
             })
             describe('equals', () => {
@@ -122,7 +122,7 @@ describe('prepare', () => {
                             equals: 'deago'
                         }
                     })
-                    const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=Donor+eq+%27deago%27"
+                    const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=Donor+eq+%27deago%27&%24format=json"
                     expect(url).toBe(expectedUrl) 
                 })
 
@@ -134,7 +134,7 @@ describe('prepare', () => {
                             equals: 1
                         }
                     })
-                    const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=Time+eq+1"
+                    const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=Time+eq+1&%24format=json"
                     expect(url).toBe(expectedUrl) 
                 })
             })
@@ -146,7 +146,7 @@ describe('prepare', () => {
                         endswith: 'ing'
                     }
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=endswith%28Description%2C%27ing%27%29"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=endswith%28Description%2C%27ing%27%29&%24format=json"
                 expect(url).toBe(expectedUrl) 
             })
             it('startswith', () => {
@@ -157,11 +157,10 @@ describe('prepare', () => {
                         startswith: 'Did '
                     }
                 })
-                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=startswith%28Description%2C%27Did+%27%29"
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=startswith%28Description%2C%27Did+%27%29&%24format=json"
                 expect(url).toBe(expectedUrl) 
             })
             
         })
-
     })
 })
