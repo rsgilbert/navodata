@@ -10,13 +10,9 @@ const prepare = (baseUrl, companyName) => {
         id,
         count,
         top, 
-        filter, //: { 
-        //     endswith,
-        //     startswith,
-        //     equals,
-        //     contains
-        // },
         skip,
+        // filter is an object with properties: property, and one of these: endswith, startswith, equals, contains
+        filter, 
         orderby,
         select
     }) {
