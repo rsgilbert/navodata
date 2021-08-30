@@ -19,6 +19,7 @@ describe('prepare', () => {
         })
 
         describe('id', () => {
+
             it('id number', () => {
                 const id = 36
                 const url = query({
@@ -28,6 +29,7 @@ describe('prepare', () => {
                 const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList(36)"
                 expect(url).toBe(expectedUrl)
             })
+
             it('id string', () => {
                 const id = "A002"
                 const url = query({
@@ -89,6 +91,77 @@ describe('prepare', () => {
             const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24count=true"
             expect(url).toBe(expectedUrl)
         })
-        
+
+        it('select', () => {
+            const url = query({
+                serviceName,
+                select: [ 'Donor', 'Description', 'LineNo' ]
+            })
+            const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24select=Donor%2CDescription%2CLineNo"
+            expect(url).toBe(expectedUrl) 
+        })
+
+        describe('filter', () => {
+            it('contains', () => {
+                const url = query({
+                    serviceName,
+                    filter: {
+                        property: 'Donor',
+                        contains: 'deago'
+                    }
+                })
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=contains%28Donor%2C%27deago%27%29"
+                expect(url).toBe(expectedUrl) 
+            })
+            describe('equals', () => {
+                it('equals number', () => {
+                    const url = query({
+                        serviceName,
+                        filter: {
+                            property: 'Donor',
+                            equals: 'deago'
+                        }
+                    })
+                    const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=Donor+eq+%27deago%27"
+                    expect(url).toBe(expectedUrl) 
+                })
+
+                it('equals string', () => {
+                    const url = query({
+                        serviceName,
+                        filter: {
+                            property: 'Time',
+                            equals: 1
+                        }
+                    })
+                    const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=Time+eq+1"
+                    expect(url).toBe(expectedUrl) 
+                })
+            })
+            it('endswith', () => {
+                const url = query({
+                    serviceName,
+                    filter: {
+                        property: 'Description',
+                        endswith: 'ing'
+                    }
+                })
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=endswith%28Description%2C%27ing%27%29"
+                expect(url).toBe(expectedUrl) 
+            })
+            it('startswith', () => {
+                const url = query({
+                    serviceName,
+                    filter: {
+                        property: 'Description',
+                        startswith: 'Did '
+                    }
+                })
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=startswith%28Description%2C%27Did+%27%29"
+                expect(url).toBe(expectedUrl) 
+            })
+            
+        })
+
     })
 })

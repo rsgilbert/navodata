@@ -18,8 +18,6 @@ const prepare = (baseUrl, companyName) => {
         // },
         skip,
         orderby,
-        isDescending,
-        isShowCount,
         select
     }) {
         let url = new URL(`${companyBaseUrl.href}`)
@@ -38,7 +36,7 @@ const prepare = (baseUrl, companyName) => {
         // count
         if(count) {
             testField('id', id, undefined)
-            addParam(url, '$count', true)
+            addParam(url, '$count', 'true')
         }
 
         // top
@@ -63,9 +61,62 @@ const prepare = (baseUrl, companyName) => {
             addParam(url, '$orderby', orderbyParamValue)
         }
 
+        // select
+        if(select) {
+            testField('id', id, undefined)
+            const selectParamValue = select.join(',')
+            addParam(url, '$select', selectParamValue)
+        }
+
+        // filter
+        if(filter) {
+            testField('id', id, undefined)
+            if(filter.contains) {
+                // Note: this filter applies only to strings (Edm.String)
+                testField('filter.endswith', filter.endswith, undefined)
+                testField('filter.equals', filter.equals, undefined)
+                testField('filter.startswith', filter.startswith, undefined)
+                const containsParamValue = `contains(${filter.property},'${filter.contains}')`
+                addParam(url, '$filter', containsParamValue)
+            }
+            if(filter.equals) {
+                // Note: this filter applies to both strings (Edm.String) and numbers 
+                testField('filter.endswith', filter.endswith, undefined)
+                testField('filter.contains', filter.contains, undefined)
+                testField('filter.startswith', filter.startswith, undefined)
+                let equalsParamValue
+                if(typeof filter.equals === 'number') {
+                    equalsParamValue = `${filter.property} eq ${filter.equals}`
+                }
+                else {
+                    equalsParamValue = `${filter.property} eq '${filter.equals}'`
+                }
+                addParam(url, '$filter', equalsParamValue)
+            }
+            if(filter.endswith) {
+                // Note: this filter applies only to strings (Edm.String)
+                testField('filter.contains', filter.contains, undefined)
+                testField('filter.equals', filter.equals, undefined)
+                testField('filter.startswith', filter.startswith, undefined)
+                const endswithParamValue = `endswith(${filter.property},'${filter.endswith}')`
+                addParam(url, '$filter', endswithParamValue)
+            }
+            if(filter.startswith) {
+                // Note: this filter applies only to strings (Edm.String)
+                testField('filter.contains', filter.contains, undefined)
+                testField('filter.equals', filter.equals, undefined)
+                testField('filter.endswith', filter.endswith, undefined)
+                const startswithParamValue = `startswith(${filter.property},'${filter.startswith}')`
+                addParam(url, '$filter', startswithParamValue)
+            }
+        }
+
+
+
         return url.href
     }
 }
+
 
 function addToPath(url, value) {
     url.pathname += '/' + value
