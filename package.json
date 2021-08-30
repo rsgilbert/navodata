@@ -1,15 +1,18 @@
 {
   "name": "navodata",
   "version": "1.0.0",
-  "description": "",
+  "description": "Constructs URL for sending web service request to NAV / BC",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "gilberts <gssenyonjo@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "navclient": "^1.0.1"
+  },
+  "devDependencies": {
+    "jest": "^27.1.0"
   }
 }
