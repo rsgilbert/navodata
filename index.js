@@ -8,6 +8,7 @@ const prepare = (baseUrl, companyName) => {
     function query({
         serviceName,
         id,
+        count,
         top, 
         filter, //: { 
         //     endswith,
@@ -16,7 +17,7 @@ const prepare = (baseUrl, companyName) => {
         //     contains
         // },
         skip,
-        orderBy,
+        orderby,
         isDescending,
         isShowCount,
         select
@@ -34,12 +35,32 @@ const prepare = (baseUrl, companyName) => {
             }
         }
 
+        // count
+        if(count) {
+            testField('id', id, undefined)
+            addParam(url, '$count', true)
+        }
 
         // top
         if(top) {
-            console.log('top', top)
-           // testField('id', id, undefined)
+            testField('id', id, undefined)
             addParam(url, '$top', top)
+        }
+
+        // skip
+        if(skip) {
+            testField('id', id, undefined)
+            addParam(url, '$skip', skip)
+        }
+
+        // orderby
+        if(orderby) {
+            testField('id', id, undefined)
+            let orderbyParamValue = orderby.property
+            if(orderby.isDescending) {
+                orderbyParamValue += ' desc'
+            } 
+            addParam(url, '$orderby', orderbyParamValue)
         }
 
         return url.href
