@@ -3,15 +3,27 @@
   "version": "1.0.0",
   "description": "Constructs URL for sending web service request to NAV / BC",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsgilbert/navodata.git"
+  },
   "scripts": {
     "test": "jest"
   },
-  "keywords": [],
+  "keywords": [
+    "Odata",
+    "Microsoft",
+    "Microsoft Dynamics",
+    "NAV",
+    "Navision",
+    "web service",
+    "Business Central",
+    "API",
+    "URL"
+  ],
   "author": "gilberts <gssenyonjo@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "navclient": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jest": "^27.1.0"
   }
