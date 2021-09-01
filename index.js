@@ -1,6 +1,11 @@
 const prepare = (baseUrl, companyName) => {
     const companyBaseUrl = new URL(baseUrl)
-    addToPath(companyBaseUrl, `Company('${companyName}')`);
+    // We add the company as a query param
+    // instead of using (Company('MyNiceCompany')) 
+    // because old versions of NAV eg NAV 2015 give an error
+    // about missing company information when you make PATCH 
+    // requests using the Company('MyNiceCompany') approach
+    addParam(companyBaseUrl, 'company', companyName)
     
     return query
 
