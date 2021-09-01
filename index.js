@@ -25,6 +25,19 @@ const prepare = (baseUrl, companyName) => {
             if(typeof id == "number") {
                 url.pathname += `(${id})`
             } 
+            else if(typeof id == "object") {
+                // We are specifying multiple keys
+                let idParts = Object.entries(id).map(([k,v]) => {
+                    if(typeof v === 'number') {
+                        return `${k}=${v}`
+                    } else {
+                        // assume v is a string
+                        return `${k}='${v}'`
+                    }
+                })
+                const idPart = `(${idParts.join(',')})`
+                url.pathname += idPart
+            }
             else {
                 url.pathname += `('${id}')`
             }

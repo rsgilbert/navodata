@@ -39,6 +39,18 @@ describe('prepare', () => {
                 const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList('A002')?%24format=json"
                 expect(url).toBe(expectedUrl)
             })
+            it('id object', () => {
+                const id = {
+                    DocumentNo: 0,
+                    LineNo: 5
+                }
+                const url = query({
+                    serviceName,
+                    id
+                })
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList('A002')?%24format=json"
+                expect(url).toBe(expectedUrl)
+            })
         })
 
         it('top', () => {
