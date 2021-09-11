@@ -20,6 +20,8 @@ const prepare = (baseUrl, companyName) => {
         filter, 
         orderby,
         select,
+        // For Odata V4 (> MS Dynamics 2018)
+        boundedAction,
         disableJson
     }) {
         let url = new URL(`${companyBaseUrl.href}`)
@@ -124,6 +126,16 @@ const prepare = (baseUrl, companyName) => {
                 const startswithParamValue = `startswith(${filter.property},'${filter.startswith}')`
                 addParam(url, '$filter', startswithParamValue)
             }
+        }
+
+        // boundedAction
+        // Note that this applies to OData V4 and above.
+        // Version of NAV earlier than NAV 2018 use older Odata versions that do not support exposing 
+        // functions as external services
+        // Also, the action is not application to a collection. In our
+        // case, an id parameter should also be provided to identify the resource.
+        if(boundedAction) {
+            addToPath(url, boundedAction)
         }
 
         // json support
