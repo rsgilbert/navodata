@@ -172,7 +172,23 @@ describe('prepare', () => {
                 const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=startswith%28Description%2C%27Did+%27%29&%24format=json"
                 expect(url).toBe(expectedUrl) 
             })
-            
+            it('multiple filters', () => {
+                const url = query({
+                    serviceName,
+                    filter: [
+                        {
+                            property: 'Description',
+                            startswith: 'Did '
+                        },
+                        {
+                            property: 'Description',
+                            endswith: 'ing'
+                        }
+                    ]
+                })
+                const expectedUrl = "http://junit:7148/BC140/ODataV4/Company('AVSI%20Kampala')/MyTimesheetList?%24filter=startswith%28Description%2C%27Did+%27%29&%24format=json"
+                expect(url).toBe(expectedUrl) 
+            })
         })
     })
 })

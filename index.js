@@ -16,7 +16,7 @@ const prepare = (baseUrl, companyName) => {
         count,
         top, 
         skip,
-        // filter is an object with properties: property, and one of these: endswith, startswith, equals, contains
+        // filter is an object / array. If object, it has properties: property, and one of these: endswith, startswith, equals, contains
         filter, 
         orderby,
         select,
@@ -24,6 +24,7 @@ const prepare = (baseUrl, companyName) => {
         boundedAction,
         disableJson
     }) {
+        // --> joi
         let url = new URL(`${companyBaseUrl.href}`)
         testField('serviceName', serviceName)
         addToPath(url, serviceName)
@@ -87,44 +88,15 @@ const prepare = (baseUrl, companyName) => {
 
         // filter
         if(filter) {
-            testField('id', id, undefined)
-            if(filter.contains) {
-                // Note: this filter applies only to strings (Edm.String)
-                testField('filter.endswith', filter.endswith, undefined)
-                testField('filter.equals', filter.equals, undefined)
-                testField('filter.startswith', filter.startswith, undefined)
-                const containsParamValue = `contains(${filter.property},'${filter.contains}')`
-                addParam(url, '$filter', containsParamValue)
+            if(filter instanceof Array) {
+                let filters = filter.map(f => {
+                    return getFilterParamValue(f)
+                })
+                const paramValue = filters.join(' and ')
+                addParam(url, '$filter', paramValue)
             }
-            if(filter.equals) {
-                // Note: this filter applies to both strings (Edm.String) and numbers 
-                testField('filter.endswith', filter.endswith, undefined)
-                testField('filter.contains', filter.contains, undefined)
-                testField('filter.startswith', filter.startswith, undefined)
-                let equalsParamValue
-                if(typeof filter.equals === 'number') {
-                    equalsParamValue = `${filter.property} eq ${filter.equals}`
-                }
-                else {
-                    equalsParamValue = `${filter.property} eq '${filter.equals}'`
-                }
-                addParam(url, '$filter', equalsParamValue)
-            }
-            if(filter.endswith) {
-                // Note: this filter applies only to strings (Edm.String)
-                testField('filter.contains', filter.contains, undefined)
-                testField('filter.equals', filter.equals, undefined)
-                testField('filter.startswith', filter.startswith, undefined)
-                const endswithParamValue = `endswith(${filter.property},'${filter.endswith}')`
-                addParam(url, '$filter', endswithParamValue)
-            }
-            if(filter.startswith) {
-                // Note: this filter applies only to strings (Edm.String)
-                testField('filter.contains', filter.contains, undefined)
-                testField('filter.equals', filter.equals, undefined)
-                testField('filter.endswith', filter.endswith, undefined)
-                const startswithParamValue = `startswith(${filter.property},'${filter.startswith}')`
-                addParam(url, '$filter', startswithParamValue)
+            else {
+                addParam(url, '$filter', getFilterParamValue(filter))            
             }
         }
 
@@ -134,6 +106,11 @@ const prepare = (baseUrl, companyName) => {
         // functions as external services
         // Also, the action is not application to a collection. In our
         // case, an id parameter should also be provided to identify the resource.
+        // Its a good thing we have this requirement of providing an id, it prevents us
+        // from accidentally inserting a new record when we forget to specify a boundAction value
+        // Also note that boundedActions begin with: "NAV." eg NAV.PerformPost
+        // Moreover, in the json for the request body, ensure all your keys begin with a small letter, eg
+        // use { requestId: 52 } and not { RequestId: 52 } lest you get a BadRequest error.
         if(boundedAction) {
             addToPath(url, boundedAction)
         }
@@ -148,6 +125,31 @@ const prepare = (baseUrl, companyName) => {
     }
 }
 
+function getFilterParamValue(filter) {
+    if(filter.contains) {
+        const containsParamValue = `contains(${filter.property},'${filter.contains}')`
+        return containsParamValue
+    }
+    if(filter.equals) {
+        let equalsParamValue
+        if(typeof filter.equals === 'number') {
+            equalsParamValue = `${filter.property} eq ${filter.equals}`
+        }
+        else {
+            equalsParamValue = `${filter.property} eq '${filter.equals}'`
+        }
+        return equalsParamValue
+    }
+    if(filter.endswith) {
+        const endswithParamValue = `endswith(${filter.property},'${filter.endswith}')`
+        return endswithParamValue
+    }
+    if(filter.startswith) {
+        const startswithParamValue = `startswith(${filter.property},'${filter.startswith}')`
+        return startswithParamValue
+    }
+    throw Error('Unknown filter: ' + filter)
+}
 
 function addToPath(url, value) {
     url.pathname += '/' + value
