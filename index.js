@@ -132,7 +132,7 @@ function getFilterParamValue(filter) {
     }
     if(filter.equals) {
         let equalsParamValue
-        if(typeof filter.equals === 'number') {
+        if(typeof filter.equals === 'number' || typeof filter.equals === 'boolean') {
             equalsParamValue = `${filter.property} eq ${filter.equals}`
         }
         else {
