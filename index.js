@@ -148,7 +148,7 @@ function getFilterParamValue(filter) {
         const startswithParamValue = `startswith(${filter.property},'${filter.startswith}')`
         return startswithParamValue
     }
-    throw Error('Unknown filter: ' + filter)
+    throw Error('Unknown filter: ' + JSON.stringify(filter))
 }
 
 function addToPath(url, value) {

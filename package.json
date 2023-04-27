@@ -1,6 +1,6 @@
 {
   "name": "navodata",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Constructs URL for sending web service request to NAV / BC",
   "main": "index.js",
   "repository": {
