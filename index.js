@@ -160,7 +160,7 @@ function getFilterParamValue(filter) {
         if (typeof value === 'number' || typeof value === 'boolean') {
             operatorParamValue = `${filter.property} ${operator} ${value}`
         }
-        if (value instanceof Date || isIsoDate(value)) {
+        else if (value instanceof Date || isIsoDate(value)) {
             // we are dealing with a date 
             let isoDate = value
             if (value instanceof Date) {
@@ -183,7 +183,7 @@ function getFilterParamValue(filter) {
  * @returns {boolean}
  */
 function isIsoDate(str) {
-    if (str.includes('T')) {
+    if (String(str).includes('T')) {
         // this is datetime
         if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(str)) return false;
     }
