@@ -1,3 +1,4 @@
+
 const prepare = (baseUrl, companyName) => {
     const companyBaseUrl = new URL(baseUrl)
     // We add the company as a query param
@@ -30,7 +31,7 @@ const prepare = (baseUrl, companyName) => {
         addToPath(url, serviceName)
         // id
         if (id) {
-            if (typeof id == "number") {
+            if (typeof id == "number" || isUUID(id)) {
                 url.pathname += `(${id})`
             }
             else if (typeof id == "object") {
@@ -157,7 +158,7 @@ function getFilterParamValue(filter) {
 
         let operatorParamValue
 
-        if (typeof value === 'number' || typeof value === 'boolean') {
+        if (typeof value === 'number' || typeof value === 'boolean' || isUUID(value)) {
             operatorParamValue = `${filter.property} ${operator} ${value}`
         }
         else if (value instanceof Date || isIsoDate(value)) {
@@ -233,6 +234,17 @@ function testField(label, fieldValue, expectedValue) {
             throw Error(`Field "${label}" must equal ${expectedValue} but was ${fieldValue}`)
         }
     }
+}
+
+
+function isUUID ( uuid ) {
+    let s = "" + uuid;
+
+    s = s.match('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
+    if (s === null) {
+      return false;
+    }
+    return true;
 }
 
 
