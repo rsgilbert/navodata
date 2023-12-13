@@ -21,6 +21,7 @@ const prepare = (baseUrl, companyName) => {
         filter,
         orderby,
         select,
+        expand,
         // For Odata V4 (> MS Dynamics 2018)
         boundedAction,
         disableJson
@@ -56,6 +57,9 @@ const prepare = (baseUrl, companyName) => {
         if (count) {
             testField('id', id, undefined)
             addParam(url, '$count', 'true')
+        }
+        if (expand) {
+            addParam(url, '$expand', 'true')
         }
 
         // top
