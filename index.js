@@ -59,7 +59,7 @@ const prepare = (baseUrl, companyName) => {
             addParam(url, '$count', 'true')
         }
         if (expand) {
-            addParam(url, '$expand', 'true')
+            addParam(url, '$expand', expand)
         }
 
         // top
